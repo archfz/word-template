@@ -8,6 +8,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
     exit
 fi
 
+# Move key to ssh.
+mv compose_key ~/.ssh/id_rsa
+
 # Checkout target branch and create if it doesn't exists.
 echo "Checking out $TARGET_BRANCH."
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH && TARGET_NEW=1 || exit 0
@@ -40,10 +43,6 @@ git config user.email "$COMMIT_AUTHOR_EMAIL"
 git add -A
 version=$(php -r "echo json_decode(file_get_contents('composer.json'))->extra->{'branch-alias'}->{'dev-package'};")
 git commit -m "Compose $version"
-
-chmod 600 compose_key
-eval `ssh-agent -s`
-ssh-add compose_key
 
 echo "Pushing to origin $TARGET_BRANCH."
 git push origin $TARGET_BRANCH
