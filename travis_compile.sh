@@ -17,7 +17,7 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
 # Checkout target branch and create if it doesn't exists.
 echo "Checking out $TARGET_BRANCH."
-git fetch origin
+git fetch origin $TARGET_BRANCH
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH && TARGET_NEW=1 || exit 0
 
 if [ "$TARGET_NEW" != "1" ]; then
