@@ -33,7 +33,7 @@ git pull --rebase
 echo "Composing."
 cp native/owgen ./
 rm -r native/* || exit 0
-cp owgen native/
+mv owgen native/
 
 if [ "$TARGET_NEW" != "1" ]; then
     diff=$(git diff origin ${TARGET_BRANCH})
