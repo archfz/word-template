@@ -6,8 +6,12 @@ third party library.
 
 ### Installation
 ```
-composer require archfz/word-templating
+composer require archfz/word-templating:1.1.x-dev
 ```
+**Note:** require with the specified version, otherwise not the
+'package' branch will be used. This branch is better as it does
+not include all the c++ source files and libraries that are not
+required for functionality.
 
 ### Usage
 First you need to create a template word document. This must be 
