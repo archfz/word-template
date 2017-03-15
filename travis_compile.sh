@@ -8,6 +8,10 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
     exit
 fi
 
+# Add git identity.
+git config user.name "Travis CI"
+git config user.email "$COMMIT_AUTHOR_EMAIL"
+
 # Move and protect key.
 chmod 600 compose_key
 mv compose_key ~/.ssh/id_rsa
@@ -43,10 +47,6 @@ fi
 
 git status
 echo "Changes detected."
-
-# Add git identity.
-git config user.name "Travis CI"
-git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # Commit the changes and push to target branch.
 git add -A
