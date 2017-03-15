@@ -21,9 +21,7 @@ git remote set-branches --add origin $TARGET_BRANCH
 git fetch origin
 git checkout -b $TARGET_BRANCH origin/$TARGET_BRANCH  || git checkout -b $TARGET_BRANCH --track origin/$SOURCE_BRANCH && TARGET_NEW=1 || exit 0
 
-if [ "$TARGET_NEW" != "1" ]; then
-    git branch --set-upstream-to=origin/$SOURCE_BRANCH
-fi
+git branch --set-upstream-to=origin/$SOURCE_BRANCH
 
 # Update to latest changes.
 echo "Updating $TARGET_BRANCH."
