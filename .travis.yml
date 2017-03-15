@@ -7,4 +7,4 @@ before_install:
 script: bash ./travis_compile.sh
 env:
   global:
-  - COMMIT_AUTHOR_EMAIL: "zoltan.fodor@pitechnologies.ro"
+  - COMMIT_AUTHOR_EMAIL: zoltan.fodor@pitechnologies.ro
