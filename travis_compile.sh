@@ -17,8 +17,13 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
 # Checkout target branch and create if it doesn't exists.
 echo "Checking out $TARGET_BRANCH."
+git fetch
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH && TARGET_NEW=1 || exit 0
-git status
+
+if [ "$TARGET_NEW" != "1" ]; then
+    git branch --set-upstream-to=origin/$SOURCE_BRANCH
+fi
+
 # Update to latest changes.
 echo "Updating $TARGET_BRANCH."
 git pull --rebase
@@ -37,6 +42,7 @@ if [ "$TARGET_NEW" != "1" ]; then
     fi
 fi
 
+git status
 echo "Changes detected."
 
 # Add git identity.
