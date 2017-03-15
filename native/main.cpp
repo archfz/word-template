@@ -171,7 +171,7 @@ int main(int argc, char* argv[]) {
 		cout << "Begin executing compilation jobs...\n";
 		applyJobs(jobs, l_merger);
 
-		string savePath = destinationDir + templateName + "." + templateExt;
+		string savePath = destinationDir + outputName + "." + templateExt;
 		l_merger.save(savePath);
 		cout << "Compiled document saved to " << savePath << "\n";
 	} catch (const exception& e) {
