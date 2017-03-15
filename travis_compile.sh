@@ -54,4 +54,4 @@ version=$(php -r "echo json_decode(file_get_contents('composer.json'))->extra->{
 git commit -m "Compose $version"
 
 echo "Pushing to origin $TARGET_BRANCH."
-git push $SSH_REPO $TARGET_BRANCH
+git push $SSH_REPO $TARGET_BRANCH --force
