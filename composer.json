@@ -14,5 +14,10 @@
     },
     "autoload": {
         "psr-4": {"archfz\\Word\\": "src"}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-package": "1.0-dev"
+        }
     }
 }
