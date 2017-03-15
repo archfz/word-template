@@ -1,7 +1,10 @@
-language: generic
+language: php
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_3c34077228e9_key -iv $encrypted_3c34077228e9_iv
   -in compose_key.enc -out compose_key -d
 
 script: bash ./travis_compile.sh
+env:
+  global:
+  - COMMIT_AUTHOR_EMAIL: "zoltan.fodor@pitechnologies.ro"
