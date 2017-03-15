@@ -10,6 +10,8 @@ fi
 
 # Move key to ssh.
 mv compose_key ~/.ssh/id_rsa
+REPO=`git config remote.origin.url`
+SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
 # Checkout target branch and create if it doesn't exists.
 echo "Checking out $TARGET_BRANCH."
@@ -45,4 +47,4 @@ version=$(php -r "echo json_decode(file_get_contents('composer.json'))->extra->{
 git commit -m "Compose $version"
 
 echo "Pushing to origin $TARGET_BRANCH."
-git push origin $TARGET_BRANCH
+git push $SSH_REPO $TARGET_BRANCH
