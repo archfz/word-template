@@ -10,7 +10,9 @@ fi
 
 # Move and protect key.
 chmod 600 compose_key
-mv compose_key ~/.ssh/id_rsa
+eval `ssh-agent -s`
+ssh-add compose_key
+
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
