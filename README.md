@@ -1,8 +1,8 @@
 ## Word Template
 This package provides a binary executable to generate word from 
 templates and a wrapper object _WordTemplate_ to use it in PHP.
-The binary is compiled from c++ using the [DocxFactory](http://docxfactory.com/)
-third party library.
+The binary is compiled from c++, which uses the 
+[DocxFactory](http://docxfactory.com/) third party library.
 
 ### Installation
 ```
@@ -21,11 +21,11 @@ In it you create placeholders with braces like the
 following: **{placeholder}**. 
 
 You can also bookmark things that you select and then these 
-elements will be cloneable. Example bookmark the upper placeholder
-and name it '**myplaceholder**'.
+elements will be cloneable. For example bookmark the upper 
+placeholder and name it '**myplaceholder**'.
 
-With the above described word templates case then you can do 
-the following:
+In case of the above described word template you can do the 
+following:
 ```php
 use archfz/Word/WordTemplate
 
