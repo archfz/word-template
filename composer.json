@@ -13,11 +13,11 @@
         "php": "^5.3.3 || ^7.0"
     },
     "autoload": {
-        "psr-4": {"archfz\\Word\\": "src"}
+        "psr-4": {"archfz\\Word\\": "src/"}
     },
     "extra": {
         "branch-alias": {
-            "dev-package": "1.0-dev"
+            "dev-package": "v1.1"
         }
     }
 }
