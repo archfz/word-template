@@ -10,22 +10,24 @@ fi
 
 # Checkout target branch and create if it doesn't exists.
 echo "Checking out $TARGET_BRANCH."
-git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH || exit 0
+git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH && TARGET_NEW=1 || exit 0
 git status
 # Update to latest changes.
 echo "Updating $TARGET_BRANCH."
 git pull --rebase
 
 # Remove files that shouldn't be in composer.
-echo "Composing"
+echo "Composing."
 cp native/owgen ./
 rm -r native/* || exit 0
 cp owgen native/
 
-diff=$(git diff origin ${TARGET_BRANCH})
-if [ "$diff" == "" ]; then
-    echo "Nothing changed. Exiting composition."
-    exit 0
+if [ "$TARGET_NEW" != "1" ]; then
+    diff=$(git diff origin ${TARGET_BRANCH})
+    if [ "$diff" == "" ]; then
+        echo "Nothing changed. Exiting composition."
+        exit 0
+    fi
 fi
 
 echo "Changes detected."
