@@ -104,7 +104,6 @@ class WordTemplate {
     $command .= ' "' . addslashes(json_encode($this->jobs)) . '"';
 
     chdir(dirname(__FILE__) . '/../native/');
-    echo $command;
     exec($command, $output, $status);
 
     if ($status !== 0) {
