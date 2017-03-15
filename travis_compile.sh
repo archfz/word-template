@@ -1,9 +1,8 @@
 #!/bin/bash
 
-SOURCE_BRANCH="master"
-TARGET_BRANCH="package"
+TARGET_BRANCH="master"
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$TARGET_BRANCH" ]; then
     echo "No compose needed."
     exit
 fi
@@ -19,11 +18,7 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 echo "Checking out $TARGET_BRANCH."
 git remote set-branches --add origin $TARGET_BRANCH
 git fetch origin
-git checkout -b $TARGET_BRANCH origin/$TARGET_BRANCH  || git checkout -b $TARGET_BRANCH --track origin/$SOURCE_BRANCH && TARGET_NEW=1 || exit 0
-
-if [ "$TARGET_NEW" != "1" ]; then
-    git branch --set-upstream-to=origin/$SOURCE_BRANCH
-fi
+git checkout -b $TARGET_BRANCH origin/$TARGET_BRANCH
 
 # Update to latest changes.
 echo "Updating $TARGET_BRANCH."
@@ -35,12 +30,10 @@ cp native/owgen ./
 rm -r native/* || exit 0
 mv owgen native/
 
-if [ "$TARGET_NEW" != "1" ]; then
-    diff=$(git diff origin ${TARGET_BRANCH})
-    if [ "$diff" == "" ]; then
-        echo "Nothing changed. Exiting composition."
-        exit 0
-    fi
+diff=$(git diff origin ${TARGET_BRANCH})
+if [ "$diff" == "" ]; then
+    echo "Nothing changed. Exiting composition."
+    exit 0
 fi
 
 git status
@@ -53,7 +46,7 @@ git config user.email "$COMMIT_AUTHOR_EMAIL"
 # Commit the changes and push to target branch.
 git add -A
 version=$(php -r "echo json_decode(file_get_contents('composer.json'))->extra->{'branch-alias'}->{'dev-package'};")
-git commit -m "Compose $version"
+git commit -m "Travis CI compose $version"
 
 echo "Pushing to origin $TARGET_BRANCH."
 git push $SSH_REPO $TARGET_BRANCH
