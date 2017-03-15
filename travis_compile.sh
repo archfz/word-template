@@ -8,7 +8,8 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
     exit
 fi
 
-# Move key to ssh.
+# Move and protect key.
+chmod 600 compose_key
 mv compose_key ~/.ssh/id_rsa
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
