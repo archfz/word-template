@@ -8,14 +8,19 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
 fi
 
 # Checkout target branch and create if it doesn't exists.
-git checkout $TARGET_BRANCH || git checkout -b $TARGET_BRANCH --track origin $SOURCE_BRANCH
+git checkout $TARGET_BRANCH || git checkout -b $TARGET_BRANCH --track origin $SOURCE_BRANCH || exit 0
+git status
 # Update to latest changes.
 git pull --rebase
 
 # Remove files that shouldn't be in composer.
 cp native/owgen ./
-rm -r native/*
+rm -r native/* || exit 0
 cp owgen native/
+
+# Add git identity.
+git config user.name "Travis CI"
+git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # Commit the changes and push to target branch.
 git add -A
