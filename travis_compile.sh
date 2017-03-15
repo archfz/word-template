@@ -10,7 +10,7 @@ fi
 
 # Checkout target branch and create if it doesn't exists.
 echo "Checking out $TARGET_BRANCH."
-git checkout $TARGET_BRANCH || git checkout -b $TARGET_BRANCH --track origin $SOURCE_BRANCH || exit 0
+git checkout $TARGET_BRANCH || git checkout --orphan $SOURCE_BRANCH || exit 0
 git status
 # Update to latest changes.
 echo "Updating $TARGET_BRANCH."
