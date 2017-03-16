@@ -108,7 +108,7 @@ class WordTemplate {
     }
 
     $command .= ' "' . $templatePath . '"';
-    $command .= ' "' . addslashes(json_encode($this->jobs)) . '"';
+    $command .= ' ' . escapeshellarg(json_encode($this->jobs));
 
     chdir(dirname(__FILE__) . '/../native/');
     exec($command, $output, $status);
