@@ -72,12 +72,15 @@ void applyJobs(json jobs, WordProcessingMerger &merger) {
 			}
 
 			for (auto iit = job["values"].begin(); iit != job["values"].end(); iit++) {
-				cout << "- PLACING for " <<  iit.key() << " : " << iit.value() << "\n";
-
 				// Convert all values to string.
 				ostringstream os;
 				os << iit.value();
-				merger.setClipboardValue(paste, iit.key(), os.str());
+
+				string value = os.str();
+				// Remove double quotes that resulted from escaping value.
+				value = value.substr(1, value.length() - 2);
+				cout << "- PLACING for " <<  iit.key() << " : " << value << "\n";
+				merger.setClipboardValue(paste, iit.key(), value);
 			}
 		}
 		
