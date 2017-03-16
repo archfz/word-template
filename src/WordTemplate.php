@@ -100,7 +100,14 @@ class WordTemplate {
       $command .= ' -f "' . $filename . '"';
     }
 
-    $command .= ' "' . $cwd . '/' . $this->templatePath . '"';
+    $templatePath = $this->templatePath;
+    // Add current working directory to the template path if it is not an
+    // absolute path.
+    if ($templatePath[0] !== DIRECTORY_SEPARATOR && preg_match('~\A[A-Z]:(?![^/\\\\])~i', $templatePath) === 0) {
+      $templatePath = $cwd . DIRECTORY_SEPARATOR . $templatePath;
+    }
+
+    $command .= ' "' . $templatePath . '"';
     $command .= ' "' . addslashes(json_encode($this->jobs)) . '"';
 
     chdir(dirname(__FILE__) . '/../native/');
