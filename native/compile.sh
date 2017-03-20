@@ -2,7 +2,8 @@
 # Set working directory to the one where this script is.
 cd "${0%/*}"
 
-GPP_ARGS="-std=c++11"
+# -D_GLIBCXX_USE_CXX11_ABI=0 Adds compatibility for older ABI versions.
+GPP_ARGS="-std=c++11 -D_GLIBCXX_USE_CXX11_ABI=0"
 EXE_NAME=owgen;
 
 g++ ${GPP_ARGS} -c main.cpp \

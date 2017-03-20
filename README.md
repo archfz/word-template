@@ -6,7 +6,7 @@ The binary is compiled from c++, which uses the
 
 ### Installation
 ```
-composer require archfz/word-templating:1.1.x-dev
+composer require archfz/word-template:1.3.x-dev
 ```
 **Note:** require with the specified version, otherwise not the
 'package' branch will be used. This branch is better as it does

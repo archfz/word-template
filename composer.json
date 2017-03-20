@@ -17,7 +17,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-package": "1.2-dev"
+            "dev-package": "1.3-dev"
         }
     }
 }
