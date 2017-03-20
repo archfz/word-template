@@ -26,9 +26,11 @@ git checkout -b $TARGET_BRANCH --track origin/$SOURCE_BRANCH
 
 # Remove files that shouldn't be in composer.
 echo "Composing."
-cp native/owgen ./
+mv native/owgen ./
+mv native/lib ./
 rm -r native/* || exit 0
 mv owgen native/
+mv lib native/
 
 git status
 echo "Changes detected."
