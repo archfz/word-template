@@ -93,6 +93,25 @@ void applyJobs(json jobs, WordProcessingMerger &merger) {
 }
 
 /**
+ * Reads json data from stdin.
+ */
+json readJson() {
+    // Parse the jobs argument as JSON.
+
+	json buff;
+    string jsonStr;
+	try {
+	    getline(cin, jsonStr);
+		buff = json::parse(jsonStr);
+	} catch (const exception &e) {
+		cout << "Received JSON: " << jsonStr;
+		error(e);
+	}
+
+	return buff;
+}
+
+/**
  * Main.
  * 
  * Options:
@@ -102,13 +121,17 @@ void applyJobs(json jobs, WordProcessingMerger &merger) {
  * Usage: [options] <template-path> <jobs-json>
  */
 int main(int argc, char* argv[]) {
-	if (argc < 2) {
-		error("You must provide the template and the generation jobs.");
+	if (argc < 1) {
+		error("You must provide the template as a parameter.");
+	}
+
+	if (argc % 2 != 0) {
+	    error("Invalid number of arguments.");
 	}
 
 	CmdArgs args = CmdArgs(argc, argv);
 
-	string templatePath = argv[argc - 2];
+	string templatePath = argv[argc - 1];
 
 	// Make sure the template file path doesn't end with slash. 
 	int i = templatePath.length() - 1;
@@ -146,13 +169,8 @@ int main(int argc, char* argv[]) {
 	    outputName = args.get("-f");
 	}
 
-	// Parse the jobs argument as JSON.
-	json jobs;
-	try {
-		jobs = json::parse(argv[argc-1]);
-	} catch (const exception &e) {
-		error(e);
-	}
+    // Read jobs JSON.
+	json jobs = readJson();
 
 	// Compile template to dfw format for the parser.
 	string dfwPath = destinationDir + templateName + ".dfw";
