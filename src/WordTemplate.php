@@ -108,13 +108,53 @@ class WordTemplate {
     }
 
     $command .= ' "' . $templatePath . '"';
-    $command .= ' ' . escapeshellarg(json_encode($this->jobs));
+
+    $descriptorspec = array(
+      0 => array("pipe", "r"),  // stdin
+      1 => array("pipe", "w"),  // stdout
+      2 => array("pipe", "a"),  // stderr
+    );
 
     chdir(dirname(__FILE__) . '/../native/');
-    exec($command, $output, $status);
+    $process = proc_open($command, $descriptorspec, $pipes);
 
-    if ($status !== 0) {
-      throw new \Exception('Failed to compile template: ' . implode($output, "\n"));
+    $stdout = '';
+    $stderr = '';
+
+    if(($error = stream_get_contents($pipes[2])) != false) {
+      throw new \Exception('Error in command: ' . $error);
+    } else {
+      stream_set_blocking($pipes[2], 1);
+
+      fwrite($pipes[0], json_encode($this->jobs));
+      fclose($pipes[0]);
+
+      /* Prepare the read array */
+      $read   = array($pipes[1], $pipes[2]);
+      $write  = NULL;
+      $except = NULL;
+      $tv_sec = 1;      // secs
+      $tv_usec = 1000;  // millionths of secs
+
+      if(false === ($rv = stream_select($read, $write, $except, $tv_sec, $tv_usec))) {
+        throw new \Exception('error in stream_select');
+      } else if ($rv > 0) {
+        foreach($read as $pipe_resource) {
+          if($pipe_resource == $pipes[1]) {
+            $stdout .= stream_get_contents($pipes[1]);
+          } else if($pipe_resource == $pipes[2]) {
+            $stderr .= stream_get_contents($pipes[1]);
+          }
+        }
+      } else {
+        // select timed out. plenty of stuff can be done here
+      }
+    }
+
+    $status = proc_get_status($process);
+
+    if ($status['exitcode'] !== 0) {
+      throw new \Exception('Failed to compile template: ' . $stdout . $stderr);
     }
   }
 
