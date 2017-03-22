@@ -151,6 +151,8 @@ class WordTemplate {
       }
     }
 
+    // Set back initial current directory.
+    chdir($cwd);
     $status = proc_get_status($process);
 
     if ($status['exitcode'] !== 0) {
