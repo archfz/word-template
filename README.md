@@ -4,6 +4,18 @@ templates and a wrapper object _WordTemplate_ to use it in PHP.
 The binary is compiled from c++, which uses the 
 [DocxFactory](http://docxfactory.com/) third party library.
 
+### Requirements
+The usage relies on a system executable. This means that certain
+libraries are required.
+- **GCC v5+** - by installing gcc you should have most of these
+libraries available
+- **libstdc++ 6.0.21** - in certain cases you might have issues 
+(like on centos); the problem you might have is with this lib
+which needs to be configured manually 
+([download](https://drive.google.com/file/d/0B7S255p3kFXNNTIzU2thRlZmYVE/edit))
+- **PHP NTS** (Non-Thread-Safe) - this is required because for some
+reason the thread safe is not allowed to execute the binary
+
 ### Installation
 ```
 composer require archfz/word-template:1.3.x-dev
